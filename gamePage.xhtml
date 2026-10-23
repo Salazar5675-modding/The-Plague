@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Playing Game</title>
+    <style type="text/css">
+        /* Styling for the title link */
+        #site-title a,
+        #site-title a:visited,
+        #site-title a:hover,
+        #site-title a:active {
+            color: var(--accent-primary); /* Keeps the exact color before and after visiting */
+            text-decoration: none;        /* Removes the default hyperlink underline */
+        }
+        :root {
+            --bg-color: #0b0e14;          /* Main page background */
+            --header-bg: #161b22;        /* Header background */
+            --card-bg: #1c2128;          /* Game card background */
+            --accent-primary: #5900ff;   /* Neon turquoise accent */
+            --accent-secondary: #00fff7; /* Neon pink highlight */
+            --text-main: #f0f6fc;        /* Primary text */
+            --text-muted: #948b9e;       /* Subtitles / Secondary text */
+            --card-border: #35303d;      /* Subtle border outline */
+        }
+
+        /* Basic Page Setup */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Fixed Header - Stays at top on scroll */
+        #fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: var(--header-bg);
+            border-bottom: 2px solid var(--accent-primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        #site-title {
+            margin: 0;
+            font-size: 1.8em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            text-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        #nav-menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #nav-menu li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        #nav-menu a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transition: color 0.2s ease;
+        }
+
+        #nav-menu a:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Main Content Container - Padded top so header doesn't cover content */
+        #main-content {
+            margin-top: 90px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            width: 90vw;
+            color: var(--accent-primary);
+        }
+
+        #game-frame {
+            width: 100%;
+            margin-top: 70px;
+            border: 3px solid var(--accent-primary);
+            aspect-ratio: 16 / 9;
+        }
+
+        /* Fullscreen Button Styling */
+        .fullscreen-btn {
+            background-color: var(--card-bg);
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+            padding: 8px 16px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .fullscreen-btn:hover {
+            background-color: var(--card-bg);
+            color: var(--accent-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header Bar -->
+    <div id="fixed-header">
+        <h1 id="site-title"><a href="mainPage.xhtml">The Plague</a></h1>
+        <ul id="nav-menu">
+            <li><a href="gamePage.xhtml">Games</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#profile">Profile</a></li>
+        </ul>
+    </div>
+
+    
+
+    <div id="game-container">
+        <h2 class="game-heading">Player</h2>
+        
+        <!-- 1. Include 'allowfullscreen="allowfullscreen"' attribute on iframe -->
+        <iframe id="game-frame" src="about:blank" allowfullscreen="allowfullscreen"></iframe>
+
+        <!-- 2. Fullscreen Trigger Button -->
+        <button type="button" class="fullscreen-btn" onclick="toggleFullscreen()">Toggle Fullscreen</button>
+    </div>
+
+    <script type="text/javascript">
+        // Load target game URL from query parameter
+        var urlParams = new URLSearchParams(window.location.search);
+        var targetGameUrl = urlParams.get('gameUrl');
+        if (targetGameUrl) {
+            document.getElementById('game-frame').src = targetGameUrl;
+        }
+
+        // Function to trigger Fullscreen Mode
+        function toggleFullscreen() {
+            var iframe = document.getElementById('game-frame');
+
+            // Check if Fullscreen API is available and request fullscreen
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) { /* Safari / older WebKit */
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+                iframe.msRequestFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>
